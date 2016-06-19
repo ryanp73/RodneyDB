@@ -1,0 +1,235 @@
+<?php
+
+require_once './vendor/autoload.php';
+
+use Rodney\Database\Connection;
+
+$command = $argv[1];
+
+switch ($command) 
+{
+	case 'generate':
+		confirmAction();
+		$name = $argv[2] ?? '';
+		if (generateTable($name)) 
+		{
+			echo 'Successfully generated ' . $name . ' migration and model.';
+		} 
+		else 
+		{
+			echo 'Failed to generate.';
+		}
+		break;
+
+	case 'migrate':
+		confirmAction();
+		$name = $argv[2] ?? '';
+		if (migrateTable($name))
+		{
+			echo 'Migrated table ' . $name . ' successfully';
+		}
+		else 
+		{
+			echo 'Failed to migrate.';
+		}
+		break;
+
+	case 'drop':
+		confirmAction();
+		$name = $argv[2] ?? '';
+		if (dropTable($name))
+		{
+			echo 'Dropped table ' . $name . ' successfully';
+		}
+		else 
+		{
+			echo 'Failed to drop.';
+		}
+		break;	
+
+	case 'seed':
+		confirmAction();
+		$name = $argv[2] ?? '';
+		if (seedTable($name))
+		{
+			echo 'Seeded table ' . $name . ' successfully';
+		}
+		else 
+		{
+			echo 'Failed to drop.';
+		}
+		break;		
+
+	case 'help':
+		displayHelp();
+		break;
+
+	default:
+		echo 'Unknown command, use php rodney help for options';
+		break;
+}
+
+function generateTable(string $name): bool
+{
+	if ($name == '') return false;
+	return makeMigrationFile($name) && makeModelFile($name);
+}
+
+function makeMigrationFile(string $name): bool 
+{
+	$filename = './app/database/migrations/' . $name . 'Migration.php';
+
+	$tableName = strtolower($name) . 's';
+
+	if (file_exists($filename)) return false;
+
+	touch($filename);
+
+	$file = fopen($filename, 'w');
+
+
+	$text = "<?php
+
+namespace Rodney\Database\Migrations;
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Schema\Blueprint;
+
+class {$name}Migration
+{
+	public function up()
+	{
+		Capsule::schema()->create('$tableName', function (Blueprint \$table) {
+			// Insert schema here
+		});
+	}
+
+	public function down()
+	{
+		Capsule::schema()->drop('$tableName');
+	}
+}";
+	
+	fwrite($file, $text);
+
+	fclose($file);
+
+	return true;
+}
+
+function makeModelFile(string $name): bool {
+
+	$filename = './app/models/' . $name . '.php';
+
+	if (file_exists($filename)) return false;
+
+	touch($filename);
+
+	$file = fopen($filename, 'w');
+
+	$text = "<?php
+
+namespace Rodney\Models;
+
+use \Illuminate\Database\Eloquent\Model as Eloquent;
+
+class {$name} extends Eloquent
+{
+
+}";
+
+	fwrite($file, $text);
+
+	fclose($file);
+
+	return true;
+}
+
+function displayHelp() 
+{
+	echo "Welcome to Rodney, the CLI tool for the website." . PHP_EOL;
+	echo "To generate a model and table, use the command:" . PHP_EOL;
+	echo "\tphp rodney generate [modelName]" . PHP_EOL;
+	echo "\tUse a capitalized, singular model name, ex User" . PHP_EOL;
+	echo PHP_EOL;
+	echo "To migrate a specific table, use the command:" . PHP_EOL;
+	echo "\tphp rodney migrate [modelName]" . PHP_EOL;
+	echo PHP_EOL;
+	echo "To migrate all tables, use either the command:" . PHP_EOL;
+	echo "\tphp rodney migrate all" . PHP_EOL;
+	echo PHP_EOL;
+	echo "To drop a table, use the command:" . PHP_EOL;
+	echo "\tphp rodney drop [modelName]" . PHP_EOL;
+	echo PHP_EOL;
+	echo "To seed a table, use the command:" . PHP_EOL;
+	echo "\tphp rodney seed [modelName]" . PHP_EOL;
+	echo PHP_EOL;
+}
+
+function migrateTable(string $name): bool
+{
+	new Connection;
+
+	$className = 'Rodney\Database\Migrations\\' . $name . 'Migration';
+
+	$mh = new $className;
+
+	try
+	{
+		$mh->up();
+	}
+	catch (\PDOException $e)
+	{
+		echo 'Table already exists. ' . PHP_EOL;
+		echo 'Do you want to delete the existing table?';
+		confirmAction();
+		dropTable($name);
+		migrateTable($name);
+	};
+
+	return true;
+}
+
+function dropTable(string $name): bool
+{
+	new Connection;
+
+	$className = 'Rodney\Database\Migrations\\' . $name . 'Migration';
+
+	$mh = new $className;
+
+	try
+	{
+		$mh->down();
+	}
+	catch (\Exception $e)
+	{
+		return false;
+	}
+
+
+	return true;
+}
+
+function seedTable(string $name): bool
+{
+	new Connection;
+
+	$filename = './app/database/seeders/' . $name . 'Seed.php';
+
+	require_once $filename;
+
+	return true;
+}
+
+function confirmAction()
+{
+	echo "Are you sure you want to perform this action [y/n]?";
+
+	$answer = trim(fgets(STDIN));
+
+	if ($answer != 'y' && $answer != 'Y')
+	{
+		die('Operation aborted.');
+	} 
+}

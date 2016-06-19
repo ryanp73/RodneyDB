@@ -1,0 +1,23 @@
+{
+    "name": "ryanp73/rodney3.0.0",
+    "description": "Team Management system for FRC Team 2410",
+    "require": {
+        "slim/slim": "^3.4",
+        "slim/twig-view": "^2.1",
+        "illuminate/database": "^5.2",
+        "monolog/monolog": "^1.19",
+        "nesbot/carbon": "^1.21"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Pope",
+            "email": "poperyan73@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Rodney\\": "app/"
+        }
+    }
+}
