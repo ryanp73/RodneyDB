@@ -1,0 +1,12 @@
+{% include 'partials/header.html' %}
+
+<h2>Checkin/Checkout</h2>
+
+<p class="hidden" id="message"></p>
+
+<form action="{{ base_url() }}/checkin" method="POST">
+	<input type="text" name="studentId" id="studentId" required autocomplete="false">
+	<input type="submit" value="Checkin/Checkout!">
+</form>
+
+{% include 'partials/footer.html' %}

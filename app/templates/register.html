@@ -1,0 +1,56 @@
+{% include 'partials/header.html' %}
+
+<h2>Register a New User!</h2>
+
+<form action="{{ base_url() }}/register" method="POST">
+	<div class="hidden" id="errorBox"></div>
+	<div class="form-group">
+		<label for="firstName">First Name</label>
+		<input type="text" name="firstName" id="firstName" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="lastName">Last Name</label>
+		<input type="text" name="lastName" id="lastName" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="email">Email</label>
+		<input type="email" name="email" id="email" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="confirm">Confirm Password</label>
+		<input type="password" name="confirm" id="confirm" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="grade">Grade</label>
+		<input type="number" name="grade" id="grade" min="7" max="12" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="school">School (abbreviation)</label>
+		<input type="text" name="school" id="school" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="studentId">Student ID</label>
+		<input type="number" name="studentId" id="studentId" min="10000000" max="99999999" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<label for="phone">Phone Number</label>
+		<input type="number" name="phone" id="phone" min="1000000000" max="9999999999" required autocomplete="false"><br>
+	</div>
+	<div class="form-group">
+		<p>What is your preferred method of contact?</p>
+		<input type="radio" name="preferred" id="sms" value="s">
+		<label for="sms">Texting</label>
+		<input type="radio" name="preferred" id="gme" value="g">
+		<label for="gme">GroupMe</label>
+		<!-- Terrible id, but already used email -->
+		<input type="radio" name="preferred" id="ema" value="e">
+		<label for="ema">Email</label><br>
+		<input type="submit" value="Register user!">
+	</div>
+</form>
+
+{% include 'partials/footer.html' %}

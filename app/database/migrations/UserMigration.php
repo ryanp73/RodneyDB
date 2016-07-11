@@ -16,16 +16,17 @@ class UserMigration
 			$table->string('password', 60);
 			$table->string('email');
 			$table->tinyInteger('grade');
-			$table->string('ethnicity');
 			$table->string('school');
 			$table->boolean('frc')->default(true);
-			$table->boolean('ftc')->default(true);
+			$table->boolean('ftc')->default(false);
 			$table->integer('student_id');
 			$table->string('phone_number', 10);
 			$table->char('pref_contact', 1)->default('s');
+			$table->string('ethnicity');
 			$table->boolean('checked_in')->default(false);
 			$table->decimal('hours', 7, 3)->default(0);
 			$table->integer('rank')->default(5);
+			$table->datetime('last_check_in');
 			$table->timestamps();
 		});
 	}

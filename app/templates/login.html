@@ -1,0 +1,15 @@
+{% include 'partials/header.html' %}
+	<h2>Login</h2>
+	
+	<form action="{{ base_url() }}/login" method="POST">
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="email" name="email" id="email" autocomplete="false"><br>
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" autocomplete="false"><br>
+		</div>
+		<input type="submit" value="Login!">	
+	</form>
+{% include 'partials/footer.html' %}

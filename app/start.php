@@ -2,6 +2,8 @@
 
 namespace Rodney;
 
+session_start();
+
 require_once './vendor/autoload.php';
 
 use Rodney\Database\Connection;

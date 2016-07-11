@@ -1,0 +1,100 @@
+*, :after, :before {
+	box-sizing: border-box;
+}
+
+body {
+	padding: 2.5%;
+	height: 100%;
+	background-color: #ddd;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-image: linear-gradient(
+		to bottom,
+		#ccc,
+		#efefef,
+		#ccc
+	);
+	font-family: Ubuntu;
+	font-size: 1.5em;
+}
+
+div.container {
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 2.5%;
+	color: #333;
+}
+
+div.form-group {
+	padding: 10px;
+	margin: 10px;
+}
+
+h1 {
+	font-size: 2em; 
+}
+
+a {
+	text-decoration: none;
+	color: #e95420;
+}
+
+form {
+	margin: 2.5%;
+}
+
+label {
+	float: left;
+}
+
+input {
+	width: 15%;
+	float: left;
+	display: inline-block;
+	clear: left;
+}
+
+button, input[type=submit] {
+	text-align: center;
+	margin: 1.25%;
+	padding: 1%;
+	width: 12.5%;
+	height: 2.5%;
+	background-color: #e95420;
+	color: #fff;
+	border-radius: 20px;
+	border: none;
+	box-shadow: 5px 5px 5px #bbb;
+}
+
+.errorMessage {
+	font-size: 1em;
+	width: 75%;
+	height: 10%;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: #f30;
+	color: #eee;
+}
+
+.successMessage {
+	font-size: 1em;
+	width: 75%;
+	height: 10%;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: #3b0;
+	color: #eee;
+}
+
+.hidden {
+	display: none;
+}
+
+p {
+	margin: 0;
+	padding: 5px;
+}

@@ -10,4 +10,9 @@ class User extends Eloquent
 	{
 		return $this->hasMany('Rodney\Models\Guardian');
 	}
+
+	public function full_name()
+	{
+		return $this->first_name . ' ' . $this->last_name;
+	}
 }

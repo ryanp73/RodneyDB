@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>{{ title }}</title>
-</head>
-<body>
-	<p>Welcome to Rodney</p>
-</body>
-</html>
+{% include 'partials/header.html' %}
+	<h1>Welcome to Rodney</h1>
+
+	{% if loggedIn %}
+		<p>Hello {{ user.first_name }} {{ user.last_name }}</p>
+		<p><a href="{{ base_url() }}/register">Register a new user</a></p>
+		<p><a href="{{ base_url() }}/logout">Logout</a></p>
+		<p><a href="{{ base_url() }}/checkin">Checkin</a></p>
+	{% else %}
+		<p><a href="{{ base_url() }}/login">Login</a></p>
+	{% endif %}
+{% include 'partials/footer.html' %}

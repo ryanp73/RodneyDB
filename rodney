@@ -172,7 +172,15 @@ function migrateTable(string $name): bool
 
 	$className = 'Rodney\Database\Migrations\\' . $name . 'Migration';
 
-	$mh = new $className;
+	try
+	{	
+		$mh = new $className;
+	}
+	catch (\Exception $e)
+	{
+		echo 'Class does not exist';
+		return false;
+	}
 
 	try
 	{
@@ -180,12 +188,9 @@ function migrateTable(string $name): bool
 	}
 	catch (\PDOException $e)
 	{
-		echo 'Table already exists. ' . PHP_EOL;
-		echo 'Do you want to delete the existing table?';
-		confirmAction();
-		dropTable($name);
-		migrateTable($name);
-	};
+		echo $e->getMessage();
+		return false;
+	};	
 
 	return true;
 }
